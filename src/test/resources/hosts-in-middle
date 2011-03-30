@@ -1,8 +1,11 @@
 192.168.0.104	mmue-vaio	# Added by NetworkManager
 127.0.0.1	localhost.localdomain	localhost
 ::1	mmue-vaio	localhost6.localdomain6	localhost6
+
+### JVirtualHosts ###
 127.0.0.1	redspark.site
 127.0.0.1	pimcore.mm
+### /JVirtualHosts ###
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     localhost ip6-localhost ip6-loopback
