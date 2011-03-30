@@ -1,8 +1,6 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,9 @@ import java.util.List;
  */
 public class VirtualHostManager {
 
-	private static final String filePrefix = "jvh_";
+	private static final String FILE_PREFIX = "jvh_";
+	private static final String APACHE_CONF_PATH = "/etc/apache2/sites-available";
+	private static final String APACHE_ENABLED_PATH = "/etc/apache2/sites-enabled";
 
 	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
 
@@ -34,14 +34,97 @@ public class VirtualHostManager {
 		}
 	}
 
+	public boolean saveVirtualHost(final VirtualHostEntry vhost) throws IOException {
+		String content = vhost.toString();
+		File file = new File(getPathToVirtualHostConfig(vhost));
+
+		if (file.exists()) {
+			file.delete();
+			file.createNewFile();
+		}
+
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
+			outputStreamWriter.write(content);
+			outputStreamWriter.close();
+			fileOutputStream.close();
+
+			return true;
+		} catch (FileNotFoundException e) {
+			return false;
+		} catch (IOException e) {
+			return false;
+		} 
+	}
+
 	public final List<VirtualHostEntry> getHostList() {
 		return hostList;
+	}
+
+	public final boolean enableVirtualHost(final VirtualHostEntry vhost) {
+
+		if (isVirtualHostEnabled(vhost)) {
+			return true;
+		}
+
+		String cmd = "a2ensite " + getVirtualHostFileName(vhost);
+		return executeShellCommand(cmd);
+	}
+
+	public final boolean disableVirtualHost(final VirtualHostEntry vhost) {
+		if (!isVirtualHostEnabled(vhost)) {
+			return true;
+		}
+		String cmd = "a2dissite " + getVirtualHostFileName(vhost);
+		return executeShellCommand(cmd);
+	}
+
+	private boolean executeShellCommand(final String command) {
+		Runtime run = Runtime.getRuntime();
+		Process pr = null;
+
+		try {
+			pr = run.exec(command);
+			pr.waitFor();
+			return true;
+
+		} catch (IOException e) {
+			return false;
+		} catch (InterruptedException e) {
+			return false;
+		}
+	}
+
+	public final boolean isVirtualHostInitiallySaved(final VirtualHostEntry vhost) {
+		File hostFile = new File(getPathToVirtualHostConfig(vhost));
+		return hostFile.exists();
+	}
+
+	public final boolean isVirtualHostEnabled(final VirtualHostEntry vhost) {
+		File enabledHost = new File(APACHE_ENABLED_PATH + "/" + getVirtualHostFileName(vhost));
+		return enabledHost.exists();
+	}
+
+	private final String getPathToVirtualHostConfig(final VirtualHostEntry vhost) {
+		StringBuffer stringBuffer = new StringBuffer(APACHE_CONF_PATH);
+		stringBuffer.append("/");
+		stringBuffer.append(getVirtualHostFileName(vhost));
+		return stringBuffer.toString();
+	}
+
+	private String getVirtualHostFileName(final VirtualHostEntry vhost) {
+		StringBuffer stringBuffer = new StringBuffer(FILE_PREFIX);
+		stringBuffer.append(vhost.getHostname());
+		stringBuffer.append("-");
+		stringBuffer.append(vhost.getPort());
+		return stringBuffer.toString();
 	}
 
 	private class JVHDirectoryFiler implements FilenameFilter {
 		@Override
 		public boolean accept(File file, String s) {
-			return s.startsWith(filePrefix);
+			return s.startsWith(FILE_PREFIX);
 		}
 	}
 }
