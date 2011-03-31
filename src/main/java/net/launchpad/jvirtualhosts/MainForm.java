@@ -4,10 +4,9 @@ import net.launchpad.jvirtualhosts.management.apache.VirtualHostEntry;
 import net.launchpad.jvirtualhosts.management.apache.VirtualHostManager;
 
 import javax.swing.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,17 +27,17 @@ public class MainForm {
 	private JTextField textField2;
 
 	public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                createAndShowGUI();
-            }
-        });
-    }
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
+	}
 
-    private static void createAndShowGUI() {
+	private static void createAndShowGUI() {
 		try {
 			UIManager.setLookAndFeel(
-				UIManager.getSystemLookAndFeelClassName());
+					UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
@@ -48,38 +47,28 @@ public class MainForm {
 		} catch (UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
-		
-        JFrame frame = new JFrame("JVirtualHosts");
-        frame.setContentPane(new MainForm().applicationPanel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		JFrame frame = new JFrame("JVirtualHosts");
+		frame.setContentPane(new MainForm().applicationPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-        frame.setVisible(true);
-        frame.setAlwaysOnTop(false);
-    }
+		frame.setVisible(true);
+		frame.setAlwaysOnTop(false);
+	}
 
 	public MainForm() {
-		
-		hostListEnabledTab.addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				super.componentShown(componentEvent);
-
-				JList list = (JList) componentEvent.getComponent();
-
-				VirtualHostManager vhm = new VirtualHostManager();
-				try {
-					vhm.parseDirectoryContents("/etc/apache2/sites-available");
-					List<VirtualHostEntry> vhostList = vhm.getHostList();
 
 
-					for (VirtualHostEntry vhost : vhostList) {
-						((DefaultListModel)list.getModel()).addElement(vhost.getHostname());
-					}
+		VirtualHostManager vhm = new VirtualHostManager();
+		try {
+			vhm.parseDirectoryContents("/etc/apache2/sites-available");
+			List<VirtualHostEntry> vhostList = vhm.getHostList();
+			Vector<VirtualHostEntry> vhostVector = new Vector<VirtualHostEntry>();
+			vhostVector.addAll(vhostList);
+			hostListEnabledTab.setListData(vhostVector);
+		} catch (IOException e) {
 
-				} catch (IOException e) {
+		}
 
-				}
-			}
-		});
 	}
 }
