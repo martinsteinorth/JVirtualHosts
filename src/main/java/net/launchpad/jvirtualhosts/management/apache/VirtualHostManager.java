@@ -17,6 +17,9 @@ public class VirtualHostManager {
 	private static final String APACHE_CONF_PATH = "/etc/apache2/sites-available";
 	private static final String APACHE_ENABLED_PATH = "/etc/apache2/sites-enabled";
 
+	private String overrideApacheConfPath;
+	private String overrideApacheEnabledPath;
+
 	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
 
 	public void parseDirectoryContents(final String directory) throws IOException {
@@ -102,12 +105,24 @@ public class VirtualHostManager {
 	}
 
 	public final boolean isVirtualHostEnabled(final VirtualHostEntry vhost) {
-		File enabledHost = new File(APACHE_ENABLED_PATH + "/" + getVirtualHostFileName(vhost));
+		String path;
+		if (overrideApacheEnabledPath != null) {
+			path = overrideApacheEnabledPath;
+		} else {
+			path = APACHE_ENABLED_PATH;
+		}
+		File enabledHost = new File(path + "/" + getVirtualHostFileName(vhost));
 		return enabledHost.exists();
 	}
 
 	private final String getPathToVirtualHostConfig(final VirtualHostEntry vhost) {
-		StringBuffer stringBuffer = new StringBuffer(APACHE_CONF_PATH);
+		String path;
+		if (overrideApacheConfPath != null) {
+			path = overrideApacheConfPath;
+		} else {
+			path = APACHE_CONF_PATH;
+		}
+		StringBuffer stringBuffer = new StringBuffer(path);
 		stringBuffer.append("/");
 		stringBuffer.append(getVirtualHostFileName(vhost));
 		return stringBuffer.toString();
@@ -119,6 +134,22 @@ public class VirtualHostManager {
 		stringBuffer.append("-");
 		stringBuffer.append(vhost.getPort());
 		return stringBuffer.toString();
+	}
+
+	public String getOverrideApacheConfPath() {
+		return overrideApacheConfPath;
+	}
+
+	public void setOverrideApacheConfPath(String overrideApacheConfPath) {
+		this.overrideApacheConfPath = overrideApacheConfPath;
+	}
+
+	public String getOverrideApacheEnabledPath() {
+		return overrideApacheEnabledPath;
+	}
+
+	public void setOverrideApacheEnabledPath(String overrideApacheEnabledPath) {
+		this.overrideApacheEnabledPath = overrideApacheEnabledPath;
 	}
 
 	private class JVHDirectoryFiler implements FilenameFilter {
