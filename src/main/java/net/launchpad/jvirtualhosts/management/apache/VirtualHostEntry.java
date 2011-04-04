@@ -1,6 +1,7 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
 import net.launchpad.jvirtualhosts.tool.FileUtils;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 
@@ -71,9 +72,22 @@ public class VirtualHostEntry {
 		this.extraConfig = extraConfig;
 	}
 
+	@Override
 	public String toString() {
+		return this.getHostname();
+	}
+
+	public String renderTemplate() {
+		Logger log = Logger.getLogger("VHostTemplateCreator");
 		try {
-			String template = FileUtils.readFileAsString(ClassLoader.getSystemClassLoader().getResource(TEMPLATE).toExternalForm());
+			String filePath = getClass().getClassLoader().getResource(TEMPLATE).getPath();
+			if (filePath == null) {
+				filePath = ClassLoader.getSystemClassLoader().getResource(TEMPLATE).getPath();
+			}
+			if (filePath == null) {
+				filePath = Thread.currentThread().getContextClassLoader().getResource(TEMPLATE).getPath();
+			}
+			String template = FileUtils.readFileAsString(filePath);
 
 			template = template.replace("$hostname$", getHostname());
 			template = template.replace("$port$", getPort());
@@ -81,10 +95,11 @@ public class VirtualHostEntry {
 			template = template.replace("$documentRoot$", getDocumentRoot());
 			template = template.replace("$directoryConfig$", getDirectoryConfig());
 			template = template.replace("$extraConfig$", getExtraConfig());
-
+			log.debug("Rendered Template: " + template);
 			return template;
 		} catch (IOException e) {
-			return e.getMessage();
+			log.error("Error rendering template", e);
+			return null;
 		}
 	}
 }
