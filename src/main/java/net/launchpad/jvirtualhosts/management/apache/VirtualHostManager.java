@@ -1,5 +1,7 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,16 +25,22 @@ public class VirtualHostManager {
 	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
 
 	public void parseDirectoryContents(final String directory) throws IOException {
+		Logger log = Logger.getLogger("VhostDirctoryParser");
+		log.info("Using directory " + directory);
 		final File dir = new File(directory);
 
 		if (!dir.isDirectory() || !dir.canRead()) {
+			log.error("Given path does not point to a directory or is not readable at all");
 			throw new IOException("Not a directory or not readable");
 		}
 
+		log.info("Filtering directories");
 		final String[] files = dir.list(new JVHDirectoryFiler());
+		log.info("Finished filtering, found " + files.length + " entries");
 
-		for (int i = 0; i <= files.length; i++) {
-			final String fullPath = directory + files[i];
+		for (int i = 0; i < files.length; i++) {
+			final String fullPath = directory + "/" + files[i];
+			log.debug("Adding " + fullPath + " to host stack");
 			hostList.add(VirtualHostParser.parse(fullPath));
 		}
 	}
