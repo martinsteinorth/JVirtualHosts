@@ -1,0 +1,2 @@
+#!/bin/bash
+/usr/bin/env java -jar /opt/JVirtualHosts/lib/${project.build.finalName}-jar-with-dependencies.jar

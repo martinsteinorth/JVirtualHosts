@@ -1,0 +1,11 @@
+Package: JVirtualHosts
+Version: [[version]]
+Section: httpd
+Priority: optional
+Architecture: all
+Bugs: https://bugs.launchpad.net/jvirtualhosts/+filebug
+Homepage: https://launchpad.net/jvirtualhosts
+Maintainer: Martin Steinorth <martin.steinorth@googlemail.com>, Mario Mueller <mario.mueller.mac@me.com>
+Description: A GUI tool for managing Apache2 vhost files
+Distribution: development
+License: Apache License 2.0
