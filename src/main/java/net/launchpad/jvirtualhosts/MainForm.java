@@ -17,68 +17,77 @@ import java.util.Vector;
  * To change this template use File | Settings | File Templates.
  */
 public class MainForm {
-	private JTabbedPane applicationTabs;
-	private JPanel applicationPanel;
-	private JList hostListEnabledTab;
-	private JTabbedPane configTabsEnabledTab;
-	private JTextArea textArea1;
-	private JButton saveButtonEnabledPanel;
-	private JButton disableButtonEnabledPanel;
-	private JTextField textField1;
-	private JTextField textField2;
+    private JTabbedPane applicationTabs;
+    private JPanel applicationPanel;
+    private JList hostListEnabledTab;
+    private JTabbedPane configTabsEnabledTab;
+    private JTextArea textArea1;
+    private JButton saveButtonEnabledPanel;
+    private JButton disableButtonEnabledPanel;
+    private JTextField textField1;
+    private JTextField textField2;
+    private JButton exitButton;
+    private JButton saveButton;
+    private JButton restartApache2Button;
 
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
+    public static void main(String[] args) {
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                createAndShowGUI();
+            }
+        });
+    }
 
-	private static void createAndShowGUI() {
-		try {
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
+    private static void createAndShowGUI() {
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
 
-		JFrame frame = new JFrame("JVirtualHosts");
-		frame.setContentPane(new MainForm().applicationPanel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.pack();
-		frame.setVisible(true);
-		frame.setAlwaysOnTop(false);
-	}
+        JFrame frame = new JFrame("JVirtualHosts");
+        frame.setContentPane(new MainForm().applicationPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setAlwaysOnTop(false);
+    }
 
-	public MainForm() {
-		Logger log = Logger.getLogger("DataInitializer");
+    public MainForm() {
+        initVHostListing();
 
-		VirtualHostManager vhm = new VirtualHostManager();
-		try {
-			log.info("Parsing available vHosts");
 
-			vhm.parseDirectoryContents("/etc/apache2/sites-available");
-			List<VirtualHostEntry> vhostList = vhm.getHostList();
-			log.info("Found " + vhostList.size() + " hosts");
+    }
 
-			Vector<VirtualHostEntry> vhostVector = new Vector<VirtualHostEntry>();
-			log.debug("Created new vector");
-			vhostVector.addAll(vhostList);
-			log.debug("Vector aquired " + vhostVector.size() + " hosts");
+    private void initVHostListing() {
+        VirtualHostManager vhm = new VirtualHostManager();
+        Logger log = Logger.getLogger("DataInitializer");
+        try {
 
-			log.info("Setting data to view list component");
-			hostListEnabledTab.setListData(vhostVector);
+            log.info("Parsing available vHosts");
 
-		} catch (IOException e) {
-			log.fatal("Could not parse vhosts", e);
-		}
+            vhm.parseDirectoryContents("/etc/apache2/sites-available");
+            List<VirtualHostEntry> vhostList = vhm.getHostList();
+            log.info("Found " + vhostList.size() + " hosts");
 
-	}
+            Vector<VirtualHostEntry> vhostVector = new Vector<VirtualHostEntry>();
+            log.debug("Created new vector");
+            vhostVector.addAll(vhostList);
+            log.debug("Vector aquired " + vhostVector.size() + " hosts");
+
+            log.info("Setting data to view list component");
+            hostListEnabledTab.setListData(vhostVector);
+
+        } catch (IOException e) {
+            log.fatal("Could not parse vhosts", e);
+        }
+
+    }
 }
