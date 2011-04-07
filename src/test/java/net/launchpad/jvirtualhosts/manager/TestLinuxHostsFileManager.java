@@ -13,11 +13,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 30.03.11
- * Time: 00:19
- * To change this template use File | Settings | File Templates.
+ * Tests for the hosts file manager.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class TestLinuxHostsFileManager {
 

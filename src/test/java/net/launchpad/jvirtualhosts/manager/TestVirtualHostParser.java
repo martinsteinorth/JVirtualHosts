@@ -12,11 +12,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 30.03.11
- * Time: 12:33
- * To change this template use File | Settings | File Templates.
+ * Tests for the Virtual Host Parser
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class TestVirtualHostParser {
 	@Test

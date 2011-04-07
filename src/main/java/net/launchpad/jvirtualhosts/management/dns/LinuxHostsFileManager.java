@@ -6,8 +6,12 @@ import java.util.List;
 
 /**
  * Manager Class for the Linux hosts-at-end file.
+ * The manager uses markers for finding entries in the
+ * present host file. This process can only succeed, if the
+ * user does not interfere the process by manually editing the
+ * host file.
  *
- * @author Mario Mueller <mario.mueller.mac@me.com>
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class LinuxHostsFileManager {
 
@@ -56,7 +60,7 @@ public class LinuxHostsFileManager {
 	}
 
 	/**
-	 *  Reads the hosts-at-end from the file.
+	 * Reads the hosts-at-end from the file.
 	 * @param file the file instance to read the hosts-at-end from
 	 * @return -2 on error,-1 for not installed, 0 or higher for the number of hosts-at-end found.
 	 */
@@ -115,7 +119,7 @@ public class LinuxHostsFileManager {
 	}
 
 	/**
-	 *  Saves a new hostfile to the file instance given as parameter
+	 * Saves a new hostfile to the file instance given as parameter
 	 * @param file
 	 */
 	public void saveHostFile(final File file) {
@@ -142,13 +146,11 @@ public class LinuxHostsFileManager {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace(); 
-		} finally {
-
 		}
 	}
 
 	/**
-	 *  Adds a new hostname to the file
+	 * Adds a new hostname to the file
 	 * @param hostname
 	 */
 	public void addNewHostname(final String hostname) {
@@ -158,7 +160,7 @@ public class LinuxHostsFileManager {
 	}
 
 	/**
-	 *  removes a hostname from the file
+	 * removes a hostname from the file
 	 * @param hostname
 	 */
 	public void removeHostname(final String hostname) {

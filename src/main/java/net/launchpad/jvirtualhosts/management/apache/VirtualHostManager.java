@@ -7,25 +7,56 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 30.03.11
- * Time: 10:58
- * To change this template use File | Settings | File Templates.
+ * Virtual Host Manager
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class VirtualHostManager {
 
+	/**
+	 * The prefix for all files to be managed by JVH
+	 */
 	private static final String FILE_PREFIX = "jvh_";
+
+	/**
+	 * Fallback directory for ubuntu/debian linux machines.
+	 * @TODO This might desirably a configuration parameter
+	 */
 	private static final String APACHE_CONF_PATH = "/etc/apache2/sites-available";
+
+	/**
+	 * Fallback directory for ubuntu/debian linux machines.
+	 * @TODO This might desirably a configuration parameter
+	 */
 	private static final String APACHE_ENABLED_PATH = "/etc/apache2/sites-enabled";
 
+	/**
+	 * Settable path for unittest
+	 * @TODO This might desirably a configuration parameter
+	 */
 	private String overrideApacheConfPath;
+
+	/**
+	 * Settable path for unittest
+	 * @TODO This might desirably a configuration parameter
+	 */
 	private String overrideApacheEnabledPath;
 
+	/**
+	 * The list of managed entries
+	 */
 	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
 
+	/**
+	 * Gets all files in the directory by using a private inner class as filter for
+	 * the directory contents.
+	 * @see net.launchpad.jvirtualhosts.management.apache.VirtualHostManager.JVHDirectoryFiler
+	 * @param directory The directory to read
+	 * @throws IOException
+	 */
 	public void parseDirectoryContents(final String directory) throws IOException {
 		Logger log = Logger.getLogger("VhostDirctoryParser");
+
 		log.info("Using directory " + directory);
 		final File dir = new File(directory);
 
@@ -45,6 +76,12 @@ public class VirtualHostManager {
 		}
 	}
 
+	/**
+	 * Saves the managed virtual host to his respective file.
+	 * @param vhost the vhost entry
+	 * @return true on successful save
+	 * @throws IOException
+	 */
 	public boolean saveVirtualHost(final VirtualHostEntry vhost) throws IOException {
 		String content = vhost.toString();
 		File file = new File(getPathToVirtualHostConfig(vhost));
@@ -73,6 +110,13 @@ public class VirtualHostManager {
 		return hostList;
 	}
 
+	/**
+	 * Enables a virtual host using the default apache2 a2ensite tools.
+	 * This must change as we want to support more than just the ubuntu or debian setup.
+	 *
+	 * @param vhost The vhost entry to enable
+	 * @return true on success, false on failure
+	 */
 	public final boolean enableVirtualHost(final VirtualHostEntry vhost) {
 
 		if (isVirtualHostEnabled(vhost)) {
@@ -83,6 +127,13 @@ public class VirtualHostManager {
 		return executeShellCommand(cmd);
 	}
 
+	/**
+	 * Disables a virtual host using the default apache2 a2dissite tools.
+	 * This must change as we want to support more than just the ubuntu or debian setup.
+	 *
+	 * @param vhost The vhost entry to enable
+	 * @return true on success, false on failure
+	 */
 	public final boolean disableVirtualHost(final VirtualHostEntry vhost) {
 		if (!isVirtualHostEnabled(vhost)) {
 			return true;
@@ -91,6 +142,12 @@ public class VirtualHostManager {
 		return executeShellCommand(cmd);
 	}
 
+	/**
+	 * executes a shell command - used for disableVirtualHost and enableVirtualHost.
+	 * @TODO This might be better placed in a util class.
+	 * @param command The command to be executed
+	 * @return true for success, false for failure
+	 */
 	private boolean executeShellCommand(final String command) {
 		Runtime run = Runtime.getRuntime();
 		Process pr = null;
@@ -107,11 +164,21 @@ public class VirtualHostManager {
 		}
 	}
 
+	/**
+	 * Checks if the host file does already exist.
+	 * @param vhost The vhost to check for
+	 * @return true if the vhosts file does exist
+	 */
 	public final boolean isVirtualHostInitiallySaved(final VirtualHostEntry vhost) {
 		File hostFile = new File(getPathToVirtualHostConfig(vhost));
 		return hostFile.exists();
 	}
 
+	/**
+	 * Checks if the vhost is enabled
+	 * @param vhost The vhost to check for
+	 * @return true for enabled
+	 */
 	public final boolean isVirtualHostEnabled(final VirtualHostEntry vhost) {
 		String path;
 		if (overrideApacheEnabledPath != null) {
@@ -123,7 +190,12 @@ public class VirtualHostManager {
 		return enabledHost.exists();
 	}
 
-	private final String getPathToVirtualHostConfig(final VirtualHostEntry vhost) {
+	/**
+	 * Builds the path to the vhost config file. This demands on the override*Path members.
+	 * @param vhost The vhost to assemble the path for
+	 * @return the full path to the file
+	 */
+	public final String getPathToVirtualHostConfig(final VirtualHostEntry vhost) {
 		String path;
 		if (overrideApacheConfPath != null) {
 			path = overrideApacheConfPath;
@@ -136,7 +208,12 @@ public class VirtualHostManager {
 		return stringBuffer.toString();
 	}
 
-	private String getVirtualHostFileName(final VirtualHostEntry vhost) {
+	/**
+	 * Builds the filename of the vhost file.
+	 * @param vhost The vhost to build the filename for
+	 * @return the assembled filename
+	 */
+	public final String getVirtualHostFileName(final VirtualHostEntry vhost) {
 		StringBuffer stringBuffer = new StringBuffer(FILE_PREFIX);
 		stringBuffer.append(vhost.getHostname());
 		stringBuffer.append("-");
@@ -160,6 +237,10 @@ public class VirtualHostManager {
 		this.overrideApacheEnabledPath = overrideApacheEnabledPath;
 	}
 
+	/**
+	 * Inner class for the directory filter.
+	 * It assures that only the prefixed files are taken to the parser step.
+	 */
 	private class JVHDirectoryFiler implements FilenameFilter {
 		@Override
 		public boolean accept(File file, String s) {

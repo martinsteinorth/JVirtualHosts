@@ -4,16 +4,29 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 30.03.11
- * Time: 11:40
- * To change this template use File | Settings | File Templates.
+ * File Util class.
+ *
+ * This class intends to be a helper collection dealing with
+ * different, recurring file operations.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 abstract public class FileUtils {
 
+	/**
+	 * Private constructor, this is just a tool class
+	 */
 	private FileUtils() {}
 
+	/**
+	 * Reads a full file to a single string. This reader is
+	 * not multibyte-aware (as we do not need it for configuration files)
+	 *
+	 * @param filePath full qualified path to the file
+	 * @return The content of the file as string.
+	 * @throws java.io.IOException
+	 * @author Mario Mueller<mario.mueller.work@gmail.com>
+	 */
 	public static final String readFileAsString(String filePath)
 			throws java.io.IOException {
 		StringBuffer fileData = new StringBuffer(1000);

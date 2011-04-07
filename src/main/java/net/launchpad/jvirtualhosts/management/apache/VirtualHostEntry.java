@@ -12,16 +12,46 @@ import java.io.IOException;
  * basedir == $basedir$
  * etc...
  *
- * @author Mario Mueller <mario.mueller.mac@me.com>
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class VirtualHostEntry {
+	/**
+	 * Hostname
+	 */
 	private String hostname = "";
+
+	/**
+	 * Port, defaults to 80
+	 */
 	private String port = "80";
+
+	/**
+	 * Document Root of the vHost
+	 */
 	private String documentRoot = "";
+
+	/**
+	 * Basedir of the vHost
+	 * The basedir differs from the document root in case the application has some
+	 * "public" or "http" folder, which is located in the basedir
+	 */
 	private String basedir = "";
+
+	/**
+	 * Directory config for the basedir. This should be something like "AllowOverride", etc
+	 */
 	private String directoryConfig = "";
+
+	/**
+	 * Extra config you want to have in the VirtualHost tag, placed after
+	 * the directory tag mentioned in the basedir comment.
+	 */
 	private String extraConfig = "";
 
+	/**
+	 * The vhost template that should be used. This file has to be on classpath.
+	 * @TODO make this more felxible through configuration (file or gui based?)
+	 */
 	private static final String TEMPLATE = "vhost.tpl";
 
 	public String getHostname() {
@@ -72,21 +102,39 @@ public class VirtualHostEntry {
 		this.extraConfig = extraConfig;
 	}
 
+	/**
+	 * This method can be used to generate a list of host entries and put it into a
+	 * vector for the list view.
+	 * @return the hostname, like "www.example.com"
+	 */
 	@Override
 	public String toString() {
 		return this.getHostname();
 	}
 
+	/**
+	 * Renders the template given in VirtualHostEntry.TEMPLATE combined with
+	 * the values of this instance. Be sure to check the values first, there is
+	 * no validation while rendering the template!
+	 * @return rendered template
+	 */
 	public String renderTemplate() {
 		Logger log = Logger.getLogger("VHostTemplateCreator");
 		try {
+			// FIXME: Until we have a config and an absolute path to the template file, try some resource loaders:
 			String filePath = getClass().getClassLoader().getResource(TEMPLATE).getPath();
+
+			// first try failed, next try
 			if (filePath == null) {
 				filePath = ClassLoader.getSystemClassLoader().getResource(TEMPLATE).getPath();
 			}
+
+			// again next try. If this fails, we have no other option atm., but failing with a NPE!
+			// TODO: Find a way to report this back to the caller of the method and therefore returning it to the gui
 			if (filePath == null) {
 				filePath = Thread.currentThread().getContextClassLoader().getResource(TEMPLATE).getPath();
 			}
+
 			String template = FileUtils.readFileAsString(filePath);
 
 			template = template.replace("$hostname$", getHostname());

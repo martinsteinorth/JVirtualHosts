@@ -7,11 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 30.03.11
- * Time: 11:40
- * To change this template use File | Settings | File Templates.
+ * Virtual Host Parser
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 abstract public class VirtualHostParser {
 
