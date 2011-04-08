@@ -1,0 +1,29 @@
+<VirtualHost *:80>
+	ServerAdmin webmaster@localhost
+	ServerName www.test.de
+
+	DocumentRoot /opt/var/www
+
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+
+	#directoryConfig#
+	<Directory /opt/var/www>
+		Allow from all
+		Order allow,deny
+		AllowOverride all
+	</Directory>
+	#/directoryConfig#
+
+	#extraConfig#
+	<Location /test/>
+		Lala 13
+	</Location>
+	#/extraConfig#
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	LogLevel warn
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>

@@ -1,5 +1,6 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
+import net.launchpad.jvirtualhosts.tool.ApacheUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -123,8 +124,7 @@ public class VirtualHostManager {
 			return true;
 		}
 
-		String cmd = "a2ensite " + getVirtualHostFileName(vhost);
-		return executeShellCommand(cmd);
+		return ApacheUtils.enableHost(getOverrideApacheConfPath(), getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
 	}
 
 	/**
@@ -138,30 +138,7 @@ public class VirtualHostManager {
 		if (!isVirtualHostEnabled(vhost)) {
 			return true;
 		}
-		String cmd = "a2dissite " + getVirtualHostFileName(vhost);
-		return executeShellCommand(cmd);
-	}
-
-	/**
-	 * executes a shell command - used for disableVirtualHost and enableVirtualHost.
-	 * @TODO This might be better placed in a util class.
-	 * @param command The command to be executed
-	 * @return true for success, false for failure
-	 */
-	private boolean executeShellCommand(final String command) {
-		Runtime run = Runtime.getRuntime();
-		Process pr = null;
-
-		try {
-			pr = run.exec(command);
-			pr.waitFor();
-			return true;
-
-		} catch (IOException e) {
-			return false;
-		} catch (InterruptedException e) {
-			return false;
-		}
+		return ApacheUtils.disableHost(getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
 	}
 
 	/**
