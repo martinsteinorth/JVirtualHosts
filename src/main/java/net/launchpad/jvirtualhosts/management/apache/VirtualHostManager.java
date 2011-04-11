@@ -48,6 +48,28 @@ public class VirtualHostManager {
 	 */
 	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
 
+    /**
+     * Singleton Instance
+     */
+    private static VirtualHostManager instance = null;
+
+    /**
+     * We need one Manager per Application, so make this a singleton.
+     * This prevents accidentally parsing the contents twice.
+     * @return Singleton instance of VirtualHostManager
+     */
+    public static final VirtualHostManager getInstance() {
+        if (instance == null) {
+            instance = new VirtualHostManager();
+        }
+        return instance;
+    }
+
+    /**
+     * Denied default constructor, use the singleton.
+     */
+    private VirtualHostManager() {}
+
 	/**
 	 * Gets all files in the directory by using a private inner class as filter for
 	 * the directory contents.
