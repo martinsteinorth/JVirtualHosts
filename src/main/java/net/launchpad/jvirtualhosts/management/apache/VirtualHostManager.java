@@ -107,9 +107,26 @@ public class VirtualHostManager {
 		} 
 	}
 
+    /**
+     * returns all hosts parsed from the directory
+     * @return a(n) (empty) list of virtualhosts but never null
+     */
 	public final List<VirtualHostEntry> getHostList() {
 		return hostList;
 	}
+
+    /**
+     * Returns a single VirtualHostEntry by its hostname
+     * @return virtual host entry corresponding to the hostname or null
+     */
+    public final VirtualHostEntry getVirtualHostEntry(String hostname) {
+        for (VirtualHostEntry entry : getHostList()) {
+            if (entry.getHostname().equals(hostname)) {
+                return entry;
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * Enables a virtual host using the default apache2 a2ensite tools.
