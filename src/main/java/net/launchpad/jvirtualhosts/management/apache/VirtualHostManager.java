@@ -4,7 +4,6 @@ import net.launchpad.jvirtualhosts.tool.ApacheUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -63,6 +62,21 @@ public class VirtualHostManager {
             instance = new VirtualHostManager();
         }
         return instance;
+    }
+
+    /**
+     * Clears the singleton instance. Use this method if you need to re-init. the VHM for another directory.
+     * If you just need to reload the host list, use instance.clearHosts instead!
+     */
+    public static final void clearInstance() {
+        instance = null;
+    }
+
+    /**
+     * Clears the parsed list of hosts. Use this method if you need to refresh the host list from disk.
+     */
+    public final void clearHosts() {
+        getHostList().clear();
     }
 
     /**

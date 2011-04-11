@@ -61,8 +61,6 @@ public class MainForm {
 
     public MainForm() {
         initVHostListing();
-
-
     }
 
     private void initVHostListing() {

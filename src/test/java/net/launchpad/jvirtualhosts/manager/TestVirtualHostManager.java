@@ -28,19 +28,20 @@ public class TestVirtualHostManager {
     public void testDirectoryReader() throws IOException {
         File directory = new File(getClass().getResource("../../../../").getPath());
 
-        VirtualHostManager vhm = new VirtualHostManager();
+        VirtualHostManager vhm = VirtualHostManager.getInstance();
         vhm.setOverrideApacheConfPath(directory.getAbsolutePath() + "/hosts-available");
         vhm.setOverrideApacheEnabledPath(directory.getAbsolutePath() + "/hosts-enabled");
         vhm.parseDirectoryContents(directory.getAbsolutePath() + "/hosts-available");
 
         assertEquals("Number of found hosts is expected to be 1, found " + vhm.getHostList().size(), 1, vhm.getHostList().size());
+        VirtualHostManager.clearInstance();
     }
 
     @Test
     public void testHostEnabled() throws IOException {
         File directory = new File(getClass().getResource("../../../../").getPath());
 
-        VirtualHostManager vhm = new VirtualHostManager();
+        VirtualHostManager vhm = VirtualHostManager.getInstance();
         vhm.setOverrideApacheConfPath(directory.getAbsolutePath() + "/hosts-available");
         vhm.setOverrideApacheEnabledPath(directory.getAbsolutePath() + "/hosts-enabled");
         vhm.parseDirectoryContents(directory.getAbsolutePath() + "/hosts-available");
@@ -48,13 +49,14 @@ public class TestVirtualHostManager {
         List<VirtualHostEntry> entryList =  vhm.getHostList();
         VirtualHostEntry entry = entryList.get(0);
         assertTrue("Host is expected to be enabled, but is disabled", vhm.isVirtualHostEnabled(entry));
+        VirtualHostManager.clearInstance();
     }
 
     @Test
     public void testHostManipulation() throws IOException {
         File directory = new File(getClass().getResource("../../../../").getPath());
 
-        VirtualHostManager vhm = new VirtualHostManager();
+        VirtualHostManager vhm = VirtualHostManager.getInstance();
         vhm.setOverrideApacheConfPath(directory.getAbsolutePath() + "/hosts-available");
         vhm.setOverrideApacheEnabledPath(directory.getAbsolutePath() + "/hosts-enabled");
         vhm.parseDirectoryContents(directory.getAbsolutePath() + "/hosts-available");
@@ -65,5 +67,6 @@ public class TestVirtualHostManager {
         assertTrue("Host is expected to be enabled, but is disabled", vhm.isVirtualHostEnabled(entry));
         assertTrue("Disabling the host failed.", vhm.disableVirtualHost(entry));
         assertTrue("Enabling the host failed.", vhm.enableVirtualHost(entry));
+        VirtualHostManager.clearInstance();
     }
 }
