@@ -4,8 +4,8 @@ import net.launchpad.jvirtualhosts.tool.ApacheUtils;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * Virtual Host Manager
@@ -46,7 +46,7 @@ public class VirtualHostManager {
 	/**
 	 * The list of managed entries
 	 */
-	private final List<VirtualHostEntry> hostList = new ArrayList<VirtualHostEntry>();
+	private final Vector<VirtualHostEntry> hostList = new Vector<VirtualHostEntry>();
 
     /**
      * Singleton Instance
@@ -133,7 +133,7 @@ public class VirtualHostManager {
      * returns all hosts parsed from the directory
      * @return a(n) (empty) list of virtualhosts but never null
      */
-	public final List<VirtualHostEntry> getHostList() {
+	public final Vector<VirtualHostEntry> getHostList() {
 		return hostList;
 	}
 

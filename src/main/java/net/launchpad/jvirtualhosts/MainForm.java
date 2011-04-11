@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -74,16 +73,11 @@ public class MainForm {
             log.info("Parsing available vHosts");
 
             vhm.parseDirectoryContents("/etc/apache2/sites-available");
-            List<VirtualHostEntry> vhostList = vhm.getHostList();
+            Vector<VirtualHostEntry> vhostList = vhm.getHostList();
             log.info("Found " + vhostList.size() + " hosts");
 
-            Vector<VirtualHostEntry> vhostVector = new Vector<VirtualHostEntry>();
-            log.debug("Created new vector");
-            vhostVector.addAll(vhostList);
-            log.debug("Vector aquired " + vhostVector.size() + " hosts");
-
             log.info("Setting data to view list component");
-            hostListEnabledTab.setListData(vhostVector);
+            hostListEnabledTab.setListData(vhostList);
 
         } catch (IOException e) {
             log.fatal("Could not parse vhosts", e);
