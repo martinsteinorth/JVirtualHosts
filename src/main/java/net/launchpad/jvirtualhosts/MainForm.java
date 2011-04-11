@@ -67,7 +67,7 @@ public class MainForm {
     }
 
     private void initVHostListing() {
-        VirtualHostManager vhm = new VirtualHostManager();
+        VirtualHostManager vhm = VirtualHostManager.getInstance();
         Logger log = Logger.getLogger("DataInitializer");
         try {
 
