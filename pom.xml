@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>JVirtualHosts</name>
-    <groupId>net.lauchpad.JVirtualHosts</groupId>
+    <groupId>com.github.JVirtualHosts</groupId>
     <artifactId>JVirtualHosts</artifactId>
     <version>1.0-SNAPSHOT</version>
+	<url>http://github.com/JVirtualHosts/JVirtualHosts</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
