@@ -18,7 +18,8 @@ public abstract class ApacheUtils {
         } else {
             cmd = "rm -f " + pathToEnabledSites + "/" + filename;
         }
-        return ShellUtils.executeShellCommand(cmd);
+        ShellCommandExecutor sce = ShellFactory.getShell(ShellFactory.ShellType.LOCAL);
+        return sce.executeShellCommand(cmd);
     }
 
     public static boolean enableHost(String pathToAvailableSites, String pathToEnabledSites, String filename) {
@@ -30,12 +31,17 @@ public abstract class ApacheUtils {
         } else {
             cmd = "ln -s " + pathToAvailableSites + "/" + filename + " " + pathToEnabledSites;
         }
-        return ShellUtils.executeShellCommand(cmd);
+        ShellCommandExecutor sce = ShellFactory.getShell(ShellFactory.ShellType.LOCAL);
+        return sce.executeShellCommand(cmd);
     }
 
     private static boolean areApacheToolsAvailable() {
         final String defaultToolPosition = "/usr/sbin/a2ensite";
         File checkFile = new File(defaultToolPosition);
         return checkFile.exists();
+    }
+
+    public static void reloadApacheConfig() {
+
     }
 }

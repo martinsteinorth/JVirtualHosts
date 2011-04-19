@@ -15,6 +15,20 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>jsch</id>
+            <layout>default</layout>
+            <name>JSCH</name>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <url>http://jsch.sourceforge.net/maven2</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -31,6 +45,11 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.16</version>
 		</dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.44</version>
+        </dependency>
     </dependencies>
 
     <build>
