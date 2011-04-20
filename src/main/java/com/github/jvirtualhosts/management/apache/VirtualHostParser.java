@@ -1,6 +1,6 @@
-package net.launchpad.jvirtualhosts.management.apache;
+package com.github.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.LocalFileUtils;
+import com.github.jvirtualhosts.tool.LocalFileUtils;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

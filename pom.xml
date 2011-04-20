@@ -86,7 +86,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>net.launchpad.jvirtualhosts.MainForm</mainClass>
+                    <mainClass>com.github.jvirtualhosts.MainForm</mainClass>
                 </configuration>
             </plugin>
 
@@ -142,7 +142,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.launchpad.jvirtualhosts.MainForm</mainClass>
+                            <mainClass>com.github.jvirtualhosts.MainForm</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

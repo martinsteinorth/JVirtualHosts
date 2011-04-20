@@ -1,4 +1,4 @@
-package net.launchpad.jvirtualhosts.tool;
+package com.github.jvirtualhosts.tool;
 
 import java.io.*;
 

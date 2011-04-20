@@ -1,7 +1,7 @@
-package net.launchpad.jvirtualhosts;
+package com.github.jvirtualhosts;
 
-import net.launchpad.jvirtualhosts.management.apache.VirtualHostEntry;
-import net.launchpad.jvirtualhosts.management.apache.VirtualHostManager;
+import com.github.jvirtualhosts.management.apache.VirtualHostEntry;
+import com.github.jvirtualhosts.management.apache.VirtualHostManager;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;

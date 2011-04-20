@@ -1,6 +1,4 @@
-package net.launchpad.jvirtualhosts.tool;
-
-import static net.launchpad.jvirtualhosts.tool.ShellFactory.ShellType.*;
+package com.github.jvirtualhosts.tool;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,12 +9,7 @@ import static net.launchpad.jvirtualhosts.tool.ShellFactory.ShellType.*;
  */
 public abstract class ShellFactory {
 
-    public enum ShellType {
-        LOCAL,
-        REMOTE
-    };
-
-    public static ShellCommandExecutor getShell(ShellType type) {
+    public static ShellCommandExecutor getShell(ConnectionType type) {
 
         switch (type) {
             case LOCAL:

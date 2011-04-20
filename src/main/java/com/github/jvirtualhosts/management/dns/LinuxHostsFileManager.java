@@ -1,4 +1,4 @@
-package net.launchpad.jvirtualhosts.management.dns;
+package com.github.jvirtualhosts.management.dns;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -14,11 +14,6 @@ import java.util.List;
  * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class LinuxHostsFileManager {
-
-	/**
-	 * Path to the hostfile on the linxu system
-	 */
-	public static final String PATH_TO_HOSTFILE = "/etc/hosts";
 
 	/**
 	 *  Start marker for the section that is controlled by JVH

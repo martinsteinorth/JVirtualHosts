@@ -1,6 +1,6 @@
-package net.launchpad.jvirtualhosts.management.apache;
+package com.github.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.LocalFileUtils;
+import com.github.jvirtualhosts.tool.LocalFileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;

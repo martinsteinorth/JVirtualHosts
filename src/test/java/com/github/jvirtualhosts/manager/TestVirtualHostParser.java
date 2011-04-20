@@ -1,7 +1,7 @@
-package net.launchpad.jvirtualhosts.manager;
+package com.github.jvirtualhosts.manager;
 
-import net.launchpad.jvirtualhosts.management.apache.VirtualHostEntry;
-import net.launchpad.jvirtualhosts.management.apache.VirtualHostParser;
+import com.github.jvirtualhosts.management.apache.VirtualHostEntry;
+import com.github.jvirtualhosts.management.apache.VirtualHostParser;
 import org.junit.Test;
 
 import java.io.IOException;

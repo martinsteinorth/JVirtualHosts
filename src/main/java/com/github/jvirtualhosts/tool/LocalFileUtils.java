@@ -1,6 +1,7 @@
-package net.launchpad.jvirtualhosts.tool;
+package com.github.jvirtualhosts.tool;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 
 /**
@@ -11,12 +12,7 @@ import java.io.FileReader;
  *
  * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
-abstract public class LocalFileUtils {
-
-	/**
-	 * Private constructor, this is just a tool class
-	 */
-	private LocalFileUtils() {}
+public class LocalFileUtils implements FileOperator {
 
 	/**
 	 * Reads a full file to a single string. This reader is
@@ -27,7 +23,7 @@ abstract public class LocalFileUtils {
 	 * @throws java.io.IOException
 	 * @author Mario Mueller<mario.mueller.work@gmail.com>
 	 */
-	public static final String readFileAsString(String filePath)
+	public final String readFileAsString(String filePath)
 			throws java.io.IOException {
 		StringBuffer fileData = new StringBuffer(1000);
 		BufferedReader reader = new BufferedReader(
@@ -42,4 +38,19 @@ abstract public class LocalFileUtils {
 		reader.close();
 		return fileData.toString();
 	}
+
+    @Override
+    public boolean saveContentToFile(String content, String path) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean cacheFile(String path) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public File getCacheFile(String path) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

@@ -1,4 +1,4 @@
-package net.launchpad.jvirtualhosts.tool;
+package com.github.jvirtualhosts.tool;
 
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;

@@ -1,7 +1,8 @@
-package net.launchpad.jvirtualhosts.management.apache;
+package com.github.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.ApacheUtils;
-import net.launchpad.jvirtualhosts.tool.ShellFactory;
+import com.github.jvirtualhosts.tool.ApacheUtils;
+import com.github.jvirtualhosts.tool.ConnectionType;
+import com.github.jvirtualhosts.tool.ShellFactory;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -67,7 +68,7 @@ public class VirtualHostManager {
      * @return Singleton instance of VirtualHostManager
      */
     public static final VirtualHostManager getInstance() {
-        return getInstance(ShellFactory.ShellType.LOCAL);
+        return getInstance(ConnectionType.LOCAL);
     }
 
     /**
@@ -77,7 +78,7 @@ public class VirtualHostManager {
      *
      * @return Singleton instance of VirtualHostManager
      */
-    public static final VirtualHostManager getInstance(final ShellFactory.ShellType type) {
+    public static final VirtualHostManager getInstance(final ConnectionType type) {
         if (instance == null) {
             instance = new VirtualHostManager();
             instance.apacheUtils = ApacheUtils.factory(type);
@@ -108,7 +109,7 @@ public class VirtualHostManager {
 	/**
 	 * Gets all files in the directory by using a private inner class as filter for
 	 * the directory contents.
-	 * @see net.launchpad.jvirtualhosts.management.apache.VirtualHostManager.JVHDirectoryFiler
+	 * @see com.github.jvirtualhosts.management.apache.VirtualHostManager.JVHDirectoryFiler
 	 * @param directory The directory to read
 	 * @throws IOException
 	 */

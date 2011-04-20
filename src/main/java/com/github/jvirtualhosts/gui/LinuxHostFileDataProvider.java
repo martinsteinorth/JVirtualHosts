@@ -1,4 +1,4 @@
-package net.launchpad.jvirtualhosts.gui;
+package com.github.jvirtualhosts.gui;
 
 /**
  * Created by IntelliJ IDEA.

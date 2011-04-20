@@ -1,6 +1,4 @@
-package net.launchpad.jvirtualhosts.tool;
-
-import java.io.IOException;
+package com.github.jvirtualhosts.tool;
 
 /**
  * Created by IntelliJ IDEA.

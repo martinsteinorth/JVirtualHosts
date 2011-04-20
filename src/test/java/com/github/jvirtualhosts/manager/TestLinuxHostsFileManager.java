@@ -1,6 +1,6 @@
-package net.launchpad.jvirtualhosts.manager;
+package com.github.jvirtualhosts.manager;
 
-import net.launchpad.jvirtualhosts.management.dns.LinuxHostsFileManager;
+import com.github.jvirtualhosts.management.dns.LinuxHostsFileManager;
 import org.junit.Test;
 
 import java.io.File;

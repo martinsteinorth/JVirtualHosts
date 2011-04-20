@@ -1,4 +1,4 @@
-package net.launchpad.jvirtualhosts.tool;
+package com.github.jvirtualhosts.tool;
 
 import org.apache.log4j.Logger;
 
@@ -17,7 +17,7 @@ public class ApacheUtils {
     /**
      * Chosen type of operation
      */
-    private ShellFactory.ShellType type;
+    private ConnectionType type;
 
     /**
      * The typed shell
@@ -29,7 +29,7 @@ public class ApacheUtils {
      * @param type remote or local type
      * @return a locally or remotely typed util instance.
      */
-    public static ApacheUtils factory(final ShellFactory.ShellType type) {
+    public static ApacheUtils factory(final ConnectionType type) {
         ApacheUtils au = new ApacheUtils();
         au.type = type;
         au.shell = ShellFactory.getShell(type);
@@ -90,7 +90,7 @@ public class ApacheUtils {
 
         Logger log = Logger.getLogger("ApacheUtils");
 
-        if (type.equals(ShellFactory.ShellType.LOCAL)) {
+        if (type.equals(ConnectionType.LOCAL)) {
             final String defaultToolPosition = "/usr/sbin/a2ensite";
             File checkFile = new File(defaultToolPosition);
             return checkFile.exists();
