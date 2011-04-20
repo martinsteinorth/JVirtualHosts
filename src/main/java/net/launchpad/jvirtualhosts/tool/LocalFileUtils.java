@@ -11,12 +11,12 @@ import java.io.FileReader;
  *
  * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
-abstract public class FileUtils {
+abstract public class LocalFileUtils {
 
 	/**
 	 * Private constructor, this is just a tool class
 	 */
-	private FileUtils() {}
+	private LocalFileUtils() {}
 
 	/**
 	 * Reads a full file to a single string. This reader is
