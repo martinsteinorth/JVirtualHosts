@@ -1,6 +1,7 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
 import net.launchpad.jvirtualhosts.tool.ApacheUtils;
+import net.launchpad.jvirtualhosts.tool.ShellFactory;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -53,13 +54,33 @@ public class VirtualHostManager {
     private static VirtualHostManager instance = null;
 
     /**
-     * We need one Manager per Application, so make this a singleton.
-     * This prevents accidentally parsing the contents twice.
+     * Remotely or locally typed instance of the apache utils
+     */
+    private ApacheUtils apacheUtils = null;
+
+    /**
+     * Singleton access to the VHM.
+     * This prevents accidentally parsing the contents twice. The
+     * no-param version of the singleton selects automatically the local
+     * version of the shell execution adapter.
+     *
      * @return Singleton instance of VirtualHostManager
      */
     public static final VirtualHostManager getInstance() {
+        return getInstance(ShellFactory.ShellType.LOCAL);
+    }
+
+    /**
+     * Singleton access to the VHM.
+     * This prevents accidentally parsing the contents twice. This version of the
+     * singleton method lets you select the type of the shell you want to use.
+     *
+     * @return Singleton instance of VirtualHostManager
+     */
+    public static final VirtualHostManager getInstance(final ShellFactory.ShellType type) {
         if (instance == null) {
             instance = new VirtualHostManager();
+            instance.apacheUtils = ApacheUtils.factory(type);
         }
         return instance;
     }
@@ -177,7 +198,7 @@ public class VirtualHostManager {
 			return true;
 		}
 
-		return ApacheUtils.enableHost(getOverrideApacheConfPath(), getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
+		return apacheUtils.enableHost(getOverrideApacheConfPath(), getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
 	}
 
 	/**
@@ -191,7 +212,7 @@ public class VirtualHostManager {
 		if (!isVirtualHostEnabled(vhost)) {
 			return true;
 		}
-		return ApacheUtils.disableHost(getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
+		return apacheUtils.disableHost(getOverrideApacheEnabledPath(), getVirtualHostFileName(vhost));
 	}
 
 	/**

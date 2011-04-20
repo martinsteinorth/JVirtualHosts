@@ -22,6 +22,12 @@ public class SshRemoteShellUtils implements ShellCommandExecutor {
 
     private String keyfile;
 
+    private StringBuilder stdOut;
+
+    private StringBuilder stdErr;
+
+    private String lastOutput;
+
     @Override
     public boolean executeShellCommand(String command) {
         Logger log = Logger.getLogger("Remote SSH Executor");
@@ -69,5 +75,10 @@ public class SshRemoteShellUtils implements ShellCommandExecutor {
 
     public void setKeyfile(String keyfile) {
         this.keyfile = keyfile;
+    }
+
+    @Override
+    public String getLastOutput() {
+        return lastOutput;
     }
 }

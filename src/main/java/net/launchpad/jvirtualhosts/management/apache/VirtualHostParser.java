@@ -1,6 +1,6 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.FileUtils;
+import net.launchpad.jvirtualhosts.tool.LocalFileUtils;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -16,7 +16,7 @@ abstract public class VirtualHostParser {
 	private VirtualHostParser() {}
 
 	public static VirtualHostEntry parse(String fullPath) throws IOException {
-		String vhostConfig = FileUtils.readFileAsString(fullPath);
+		String vhostConfig = LocalFileUtils.readFileAsString(fullPath);
 		VirtualHostEntry vhostEntry = new VirtualHostEntry();
 
 		Pattern findPort = Pattern.compile("<VirtualHost \\*:([0-9]{1,5})>");

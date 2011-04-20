@@ -1,47 +1,120 @@
 package net.launchpad.jvirtualhosts.tool;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 
 /**
- * User: mmueller
- * Date: 08.04.11
- * Time: 10:47
+ * Apache Util class.
+ *
+ * This class intends to be a helper collection dealing with
+ * apache configuration ops.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
-public abstract class ApacheUtils {
+public class ApacheUtils {
 
-    public static boolean disableHost(String pathToEnabledSites, String filename) {
+    /**
+     * Chosen type of operation
+     */
+    private ShellFactory.ShellType type;
+
+    /**
+     * The typed shell
+     */
+    private ShellCommandExecutor shell;
+
+    /**
+     * Factory for local or remote version of the Utils
+     * @param type remote or local type
+     * @return a locally or remotely typed util instance.
+     */
+    public static ApacheUtils factory(final ShellFactory.ShellType type) {
+        ApacheUtils au = new ApacheUtils();
+        au.type = type;
+        au.shell = ShellFactory.getShell(type);
+        return au;
+    }
+
+    /**
+     * Returns the shell which the util class works with. Call
+     * getLastOutput() on it to receive the output of the last command
+     * that has been executed.
+     * @return a typed shell instance
+     */
+    public ShellCommandExecutor getShell() {
+        return shell;
+    }
+
+    /**
+     * Disables a host
+     * @param pathToEnabledSites
+     * @param filename
+     * @return the shell command
+     */
+    public boolean disableHost(String pathToEnabledSites, String filename) {
+        Logger log = Logger.getLogger("ApacheUtils");
 
         String cmd;
-        if (areApacheToolsAvailable()) {
-
+        if (areApacheToolsAvailable() && pathToEnabledSites == null) {
+            log.debug("Apache tools are available for disabling host.");
             cmd = "a2dissite " + filename;
         } else {
+            log.debug("Apache tools are not available for disabling host. Using fallback.");
             cmd = "rm -f " + pathToEnabledSites + "/" + filename;
         }
-        ShellCommandExecutor sce = ShellFactory.getShell(ShellFactory.ShellType.LOCAL);
-        return sce.executeShellCommand(cmd);
+        log.info("Executing shell command for disableHost: " + cmd);
+        boolean result = shell.executeShellCommand(cmd);
+        log.info("Shell output: " + shell.getLastOutput());
+        return result;
     }
 
-    public static boolean enableHost(String pathToAvailableSites, String pathToEnabledSites, String filename) {
+    public boolean enableHost(String pathToAvailableSites, String pathToEnabledSites, String filename) {
+        Logger log = Logger.getLogger("ApacheUtils");
 
         String cmd;
-        if (areApacheToolsAvailable()) {
-
+        if (areApacheToolsAvailable() && pathToEnabledSites == null && pathToAvailableSites == null) {
+            log.debug("Apache tools are available for enabling host.");
             cmd = "a2ensites " + filename;
         } else {
+            log.debug("Apache tools are not available for enabling host. Using fallback.");
             cmd = "ln -s " + pathToAvailableSites + "/" + filename + " " + pathToEnabledSites;
         }
-        ShellCommandExecutor sce = ShellFactory.getShell(ShellFactory.ShellType.LOCAL);
-        return sce.executeShellCommand(cmd);
+        log.info("Executing shell command for enableHost: " + cmd);
+        boolean result = shell.executeShellCommand(cmd);
+        log.info("Shell output: " + shell.getLastOutput());
+        return result;
     }
 
-    private static boolean areApacheToolsAvailable() {
-        final String defaultToolPosition = "/usr/sbin/a2ensite";
-        File checkFile = new File(defaultToolPosition);
-        return checkFile.exists();
+    private boolean areApacheToolsAvailable() {
+
+        Logger log = Logger.getLogger("ApacheUtils");
+
+        if (type.equals(ShellFactory.ShellType.LOCAL)) {
+            final String defaultToolPosition = "/usr/sbin/a2ensite";
+            File checkFile = new File(defaultToolPosition);
+            return checkFile.exists();
+        } else {
+            final String testCommand = "if [ -e \"/usr/sbin/a2ensite\" ]; then echo 1; else echo 0; fi;";
+            shell.executeShellCommand(testCommand);
+            String output = shell.getLastOutput();
+
+            if (output.equals("1")) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
     }
 
-    public static void reloadApacheConfig() {
-
+    /**
+     * Reloads the apache config.
+     *
+     * @TODO This method must check for upstart or sysv
+     */
+    public boolean reloadApacheConfig() {
+        String command = "sudo /etc/init.d/apache2 reload";
+        return shell.executeShellCommand(command);
     }
 }

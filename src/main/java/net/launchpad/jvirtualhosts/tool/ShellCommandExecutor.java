@@ -12,4 +12,6 @@ import java.io.IOException;
 public interface ShellCommandExecutor {
 
     boolean executeShellCommand(final String command);
+
+    String getLastOutput();
 }

@@ -1,6 +1,6 @@
 package net.launchpad.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.FileUtils;
+import net.launchpad.jvirtualhosts.tool.LocalFileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -135,7 +135,7 @@ public class VirtualHostEntry {
 				filePath = Thread.currentThread().getContextClassLoader().getResource(TEMPLATE).getPath();
 			}
 
-			String template = FileUtils.readFileAsString(filePath);
+			String template = LocalFileUtils.readFileAsString(filePath);
 
 			template = template.replace("$hostname$", getHostname());
 			template = template.replace("$port$", getPort());
