@@ -17,6 +17,9 @@ package com.github.jvirtualhosts;
 
 import com.github.jvirtualhosts.management.apache.VirtualHostEntry;
 import com.github.jvirtualhosts.management.apache.VirtualHostManager;
+import com.github.jvirtualhosts.storage.orient.ConnectionFactory;
+import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 import org.apache.log4j.Logger;
 
 import javax.swing.*;
@@ -43,6 +46,8 @@ public class MainForm {
     private JButton exitButton;
     private JButton saveButton;
     private JButton restartApache2Button;
+    private ODatabaseDocumentTx db;
+    private ODocument config;
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -76,6 +81,37 @@ public class MainForm {
 
     public MainForm() {
         initVHostListing();
+        initConfig();
+    }
+
+    public void initConfig() {
+        try {
+            ODatabaseDocumentTx db = ConnectionFactory.factory();
+
+            this.db = db;
+
+            try {
+                long countConfigObj = db.countClass("Configuration");
+                for (ODocument config : db.browseClass("Configuration")) {
+                    this.config = config;
+                    break;
+                }
+            } catch (IllegalArgumentException e) {
+                ODocument config = new ODocument(db, "Configuration");
+                db.save(config);
+                this.config = config;
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    public ODocument getConfig() {
+        if (this.config == null) {
+            initConfig();
+        }
+        return config;
     }
 
     private void initVHostListing() {

@@ -68,6 +68,15 @@
 
     <repositories>
         <repository>
+            <id>orientechnologies-repository</id>
+            <name>Orient Technologies Maven2 Repository</name>
+            <url>http://www.orientechnologies.com/listing/m2</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
             <id>jsch</id>
             <layout>default</layout>
             <name>JSCH</name>
@@ -114,6 +123,16 @@
             <groupId>com.jcraft</groupId>
             <artifactId>jsch</artifactId>
             <version>0.1.44</version>
+        </dependency>
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orient-commons</artifactId>
+            <version>1.0rc1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-core</artifactId>
+            <version>1.0rc1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
