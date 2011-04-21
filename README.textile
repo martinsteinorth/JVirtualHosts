@@ -1,5 +1,9 @@
 h1. JVirtualHosts (JVH)
 
+h2. Maven Site / JavaDoc
+
+Please refer to http://jvirtualhosts.github.com/JVirtualHosts/ for further information.
+
 h2. What is it about?
 
 This small tool provides a convenience graphical interface for managing local virtual hosts on Debian based systems.
