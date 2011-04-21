@@ -81,38 +81,9 @@ public class MainForm {
 
     public MainForm() {
         initVHostListing();
-        initConfig();
     }
 
-    public void initConfig() {
-        try {
-            ODatabaseDocumentTx db = ConnectionFactory.factory();
 
-            this.db = db;
-
-            try {
-                long countConfigObj = db.countClass("Configuration");
-                for (ODocument config : db.browseClass("Configuration")) {
-                    this.config = config;
-                    break;
-                }
-            } catch (IllegalArgumentException e) {
-                ODocument config = new ODocument(db, "Configuration");
-                db.save(config);
-                this.config = config;
-
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
-        }
-    }
-
-    public ODocument getConfig() {
-        if (this.config == null) {
-            initConfig();
-        }
-        return config;
-    }
 
     private void initVHostListing() {
         VirtualHostManager vhm = VirtualHostManager.getInstance();
