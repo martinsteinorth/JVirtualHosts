@@ -8,12 +8,91 @@
     <groupId>com.github.JVirtualHosts</groupId>
     <artifactId>JVirtualHosts</artifactId>
     <version>1.0-SNAPSHOT</version>
-	<url>http://github.com/JVirtualHosts/JVirtualHosts</url>
+    <url>http://github.com/JVirtualHosts/JVirtualHosts</url>
+    <inceptionYear>2011</inceptionYear>
+    <description>A Java tool for managing apache virtual hosts on debian/ubuntu linux.</description>
+
+    <licenses>
+        <license>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>The Apache Software License, Version 2.0</name>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <url>https://github.com/JVirtualHosts/JVirtualHosts/issues</url>
+        <system>GitHub</system>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/JVirtualHosts/JVirtualHosts</url>
+        <connection>scm:git:https://xenji@github.com/JVirtualHosts/JVirtualHosts.git</connection>
+        <developerConnection>scm:git:git@github.com:JVirtualHosts/JVirtualHosts.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>xenji</id>
+            <email>mario.mueller.work@gmail.com</email>
+            <name>Mario Müller</name>
+            <timezone>Europe/Berlin</timezone>
+            <roles>
+                <role>OS Layer Lead</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>martinsteinorth</id>
+            <email>martin.steinorth@gmail.com</email>
+            <name>Martin Steinorth</name>
+            <timezone>Europe/Berlin</timezone>
+            <roles>
+                <role>GUI Lead</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jsch</id>
+            <layout>default</layout>
+            <name>JSCH</name>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+                <updatePolicy>daily</updatePolicy>
+            </releases>
+            <url>http://jsch.sourceforge.net/maven2</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mc-release</id>
+            <name>Local Maven repository of releases</name>
+            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
@@ -27,10 +106,15 @@
             <version>7.0.3</version>
         </dependency>
         <dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.16</version>
-		</dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.16</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.44</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -43,8 +127,32 @@
                 </includes>
             </resource>
         </resources>
-        
+
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadoc</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -67,7 +175,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>net.launchpad.jvirtualhosts.MainForm</mainClass>
+                    <mainClass>com.github.jvirtualhosts.MainForm</mainClass>
                 </configuration>
             </plugin>
 
@@ -123,7 +231,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.launchpad.jvirtualhosts.MainForm</mainClass>
+                            <mainClass>com.github.jvirtualhosts.MainForm</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -174,6 +282,39 @@
                         </data>
                     </dataSet>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <version>1.9.0</version>
+                <configuration>
+                    <basedir>${basedir}</basedir>
+                    <header>${basedir}/src/etc/license.txt</header>
+                    <quiet>false</quiet>
+                    <failIfMissing>true</failIfMissing>
+                    <aggregate>false</aggregate>
+                    <includes>
+                        <include>src/**</include>
+                        <include>**/test/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>target/**</exclude>
+                        <exclude>.clover/**</exclude>
+                    </excludes>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <useDefaultMapping>true</useDefaultMapping>
+                    <properties>
+                        <year>${project.inceptionYear}</year>
+                    </properties>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

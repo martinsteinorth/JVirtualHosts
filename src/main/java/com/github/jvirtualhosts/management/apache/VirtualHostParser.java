@@ -1,6 +1,24 @@
-package net.launchpad.jvirtualhosts.management.apache;
+/**
+ * Copyright 2011 Martin Steinorth <martin.steinorth@gmail.com>, Mario Mueller <mario.mueller.work@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.github.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.FileUtils;
+import com.github.jvirtualhosts.tool.ConnectionType;
+import com.github.jvirtualhosts.tool.FileFactory;
+import com.github.jvirtualhosts.tool.FileOperator;
+import com.github.jvirtualhosts.tool.LocalFileUtils;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -11,12 +29,19 @@ import java.util.regex.Pattern;
  *
  * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
-abstract public class VirtualHostParser {
+public class VirtualHostParser {
 
-	private VirtualHostParser() {}
+    private ConnectionType type;
 
-	public static VirtualHostEntry parse(String fullPath) throws IOException {
-		String vhostConfig = FileUtils.readFileAsString(fullPath);
+    public static VirtualHostParser factory(ConnectionType type) {
+        VirtualHostParser virtualHostParser = new VirtualHostParser();
+        virtualHostParser.type = type;
+        return virtualHostParser;
+    }
+
+	public VirtualHostEntry parse(String fullPath) throws IOException {
+        FileOperator operator = FileFactory.factory(type);
+		String vhostConfig = operator.readFileAsString(fullPath);
 		VirtualHostEntry vhostEntry = new VirtualHostEntry();
 
 		Pattern findPort = Pattern.compile("<VirtualHost \\*:([0-9]{1,5})>");

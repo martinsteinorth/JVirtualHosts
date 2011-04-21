@@ -1,9 +1,28 @@
-package net.launchpad.jvirtualhosts.management.apache;
+/**
+ * Copyright 2011 Martin Steinorth <martin.steinorth@gmail.com>, Mario Mueller <mario.mueller.work@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package com.github.jvirtualhosts.management.apache;
 
-import net.launchpad.jvirtualhosts.tool.FileUtils;
+import com.github.jvirtualhosts.tool.ConnectionType;
+import com.github.jvirtualhosts.tool.FileFactory;
+import com.github.jvirtualhosts.tool.FileOperator;
+import com.github.jvirtualhosts.tool.LocalFileUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Represents as single VirtualHost tag. The member names are equal to their
@@ -48,11 +67,27 @@ public class VirtualHostEntry {
 	 */
 	private String extraConfig = "";
 
+    /**
+     * The type of connection to use
+     */
+    private ConnectionType type;
+
 	/**
 	 * The vhost template that should be used. This file has to be on classpath.
 	 * @TODO make this more felxible through configuration (file or gui based?)
 	 */
 	private static final String TEMPLATE = "vhost.tpl";
+
+    /**
+     * Factory for vHost Entries
+     * @param type
+     * @return a connection-typed instance of a vhost
+     */
+    public static VirtualHostEntry factory(ConnectionType type) {
+        VirtualHostEntry virtualHostEntry = new VirtualHostEntry();
+        virtualHostEntry.type = type;
+        return virtualHostEntry;
+    }
 
 	public String getHostname() {
 		return hostname;
@@ -135,7 +170,8 @@ public class VirtualHostEntry {
 				filePath = Thread.currentThread().getContextClassLoader().getResource(TEMPLATE).getPath();
 			}
 
-			String template = FileUtils.readFileAsString(filePath);
+            FileOperator operator = FileFactory.factory(type);
+			String template = operator.readFileAsString(filePath);
 
 			template = template.replace("$hostname$", getHostname());
 			template = template.replace("$port$", getPort());
