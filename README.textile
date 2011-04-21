@@ -2,7 +2,7 @@ h1. JVirtualHosts (JVH)
 
 h2. Maven Site / JavaDoc
 
-Please refer to http://jvirtualhosts.github.com/JVirtualHosts/ for further information.
+Please refer to "our GitHub pages (External link)":http://jvirtualhosts.github.com/JVirtualHosts/ for further information.
 
 h2. What is it about?
 
