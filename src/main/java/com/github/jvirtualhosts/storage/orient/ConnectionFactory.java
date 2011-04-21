@@ -1,6 +1,7 @@
 package com.github.jvirtualhosts.storage.orient;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
+import com.orientechnologies.orient.core.db.object.ODatabaseObjectTx;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,10 +15,10 @@ import java.io.IOException;
  */
 public class ConnectionFactory {
 
-    private static ODatabaseDocumentTx instance;
+    private static ODatabaseObjectTx instance;
 
-    public static ODatabaseDocumentTx factory() throws IOException {
-        final String pathToDb = System.getProperty("user.home") + "/.jvh/database.orientdb";
+    public static ODatabaseObjectTx factory() throws IOException {
+        final String pathToDb = System.getProperty("user.home") + "/.jvh/database";
 
         File f = new File(pathToDb);
         File p = new File(f.getParent());
@@ -27,7 +28,7 @@ public class ConnectionFactory {
         }
 
         if (instance == null) {
-            ODatabaseDocumentTx db = new ODatabaseDocumentTx("local:" + pathToDb);
+            ODatabaseObjectTx db = new ODatabaseObjectTx("local:" + pathToDb);
 
             if (!f.exists()) {
                 db.create();
@@ -36,6 +37,7 @@ public class ConnectionFactory {
             }
 
             instance = db;
+            instance.getEntityManager().registerEntityClasses("com.github.jvirtualhosts.config.beans");
         }
         return instance;
     }
