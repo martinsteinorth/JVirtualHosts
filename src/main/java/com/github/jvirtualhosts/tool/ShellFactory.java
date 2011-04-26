@@ -16,14 +16,19 @@
 package com.github.jvirtualhosts.tool;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 19.04.11
- * Time: 21:14
- * To change this template use File | Settings | File Templates.
+ * ShellFactory.
+ *
+ * This class intends to be a factory for ShellCommandExecutor children.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public abstract class ShellFactory {
 
+    /**
+     * Returns the shell utils for the given connection type
+     * @param type the type you want to use
+     * @return a shell utils instance depending on the type
+     */
     public static ShellCommandExecutor getShell(ConnectionType type) {
 
         switch (type) {

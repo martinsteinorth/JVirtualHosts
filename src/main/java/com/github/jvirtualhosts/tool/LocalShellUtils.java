@@ -18,9 +18,11 @@ package com.github.jvirtualhosts.tool;
 import java.io.*;
 
 /**
- * User: mmueller
- * Date: 08.04.11
- * Time: 09:26
+ * Local Shell Utils.
+ *
+ * Uses the default runtime to execute commands locally.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class LocalShellUtils implements ShellCommandExecutor {
 

@@ -89,50 +89,106 @@ public class VirtualHostEntry {
         return virtualHostEntry;
     }
 
+    /**
+     * Hostname getter
+     * @return the virtual hostname
+     */
 	public String getHostname() {
 		return hostname;
 	}
 
+    /**
+     * Sets the virtual hostname
+     * @param hostname
+     */
 	public void setHostname(String hostname) {
 		this.hostname = hostname;
 	}
 
+    /**
+     * Port getter
+     * @return the port as string
+     */
 	public String getPort() {
 		return port;
 	}
 
+    /**
+     * Sets the port as string!
+     * @param port
+     */
 	public void setPort(String port) {
 		this.port = port;
 	}
 
+    /**
+     * DocRoot getter
+     * @return The document root of the server
+     */
 	public String getDocumentRoot() {
 		return documentRoot;
 	}
 
+    /**
+     * Sets the document root of the sever
+     * @param documentRoot
+     */
 	public void setDocumentRoot(String documentRoot) {
 		this.documentRoot = documentRoot;
 	}
 
+    /**
+     * Returns the basedir of the server, which might
+     * be the same as the document root.
+     * @return the path to the basedir as string
+     */
 	public String getBasedir() {
 		return basedir;
 	}
 
+    /**
+     * Sets the basedir as string. Remember, that the
+     * document root must be located within the basedir's
+     * child structure.
+     * Like:
+     *  - Basedir: /var/www/somecustomer
+     *  - DocRoot: /var/www/somecustomer/subdomain.example.com/htdocs
+     * @param basedir
+     */
 	public void setBasedir(String basedir) {
 		this.basedir = basedir;
 	}
 
+    /**
+     * Gets the full config for the basedir (Options, AllowOverride, etc.)
+     * @return the full config stack for the basedir, separated by "\n"
+     */
 	public String getDirectoryConfig() {
 		return directoryConfig;
 	}
 
+    /**
+     * Sets the full config stack for the basedir (Options, AllowOverride, etc.)
+     * @param directoryConfig the full config for the basedir separated by a newline (\n)
+     */
 	public void setDirectoryConfig(String directoryConfig) {
 		this.directoryConfig = directoryConfig;
 	}
 
+    /**
+     * Gets all the extra config lines
+     * @return the configuration that has been added by the user. Put things like "<Location /example>\n"
+     *          etc. in here.
+     */
 	public String getExtraConfig() {
 		return extraConfig;
 	}
 
+    /**
+     * Sets the extra config settings for the host.
+     * @param extraConfig You can put something like Location tags, JKMount Settings
+     *                      ruby env or passenger configs in here, separated by a newline char (\n)
+     */
 	public void setExtraConfig(String extraConfig) {
 		this.extraConfig = extraConfig;
 	}

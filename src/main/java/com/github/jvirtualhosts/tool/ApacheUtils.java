@@ -62,7 +62,7 @@ public class ApacheUtils {
     }
 
     /**
-     * Disables a host
+     * Disables a host.
      * @param pathToEnabledSites
      * @param filename
      * @return the shell command
@@ -84,6 +84,14 @@ public class ApacheUtils {
         return result;
     }
 
+    /**
+     * Enables an existing, saved virtual host.
+     * @param pathToAvailableSites
+     * @param pathToEnabledSites
+     * @param filename
+     * @return true on success, false on failure. Both events are reported back
+     *         from the corresponding file or shell utils.
+     */
     public boolean enableHost(String pathToAvailableSites, String pathToEnabledSites, String filename) {
         Logger log = Logger.getLogger("ApacheUtils");
 
@@ -101,6 +109,10 @@ public class ApacheUtils {
         return result;
     }
 
+    /**
+     * Checks if the apache tools are available.
+     * @return true if the tools are available, false if not.
+     */
     private boolean areApacheToolsAvailable() {
 
         Logger log = Logger.getLogger("ApacheUtils");

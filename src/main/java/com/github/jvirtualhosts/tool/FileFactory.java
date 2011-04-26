@@ -16,13 +16,19 @@
 package com.github.jvirtualhosts.tool;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 20.04.11
- * Time: 11:52
- * To change this template use File | Settings | File Templates.
+ * FileFactory.
+ *
+ * This class intends to be a factory for FileOperator children.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public abstract class FileFactory {
+
+    /**
+     * Returns the file utils for the given connection type
+     * @param type the type you want to use
+     * @return a file utils instance depending on the type
+     */
     public static FileOperator factory(ConnectionType type) {
 
         switch (type) {

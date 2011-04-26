@@ -19,16 +19,30 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 20.04.11
- * Time: 11:52
- * To change this template use File | Settings | File Templates.
+ * FileOperator Interface.
+ *
+ * Interface for all file operators. At the time of writing there
+ * are two known implementations: LocalFileUtils and SshRemoteFileUtils.
+ * Get them by using the FileFactory.
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public interface FileOperator {
 
+    /**
+     * The implementation of this method should read a file into a string, keeping the newline chars.
+     * @param path
+     * @return The whole file as a single string
+     * @throws IOException
+     */
     String readFileAsString(String path) throws IOException;
 
+    /**
+     * The implementation of this method should write the given content to a file, keeping the newline chars.
+     * @param content the file's content
+     * @param path the path of the file to be written by the implementation, locally or remote.
+     * @return true on a successful save, false on any error. The error should be logged.
+     */
     boolean saveContentToFile(String content, String path);
 
     boolean cacheFile(String path);

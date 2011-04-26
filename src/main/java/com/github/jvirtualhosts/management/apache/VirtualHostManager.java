@@ -297,18 +297,36 @@ public class VirtualHostManager {
 		return stringBuffer.toString();
 	}
 
+    /**
+     * This path sould come from the configuration instance later on.
+     * @return the path to the hosts-enabled directory
+     */
 	public String getOverrideApacheConfPath() {
 		return overrideApacheConfPath;
 	}
 
+    /**
+     * This method is used for unit tests at the moment. Later on this value
+     * will be given by the configuration beans.
+     * @param overrideApacheConfPath full path to the hosts-enabled directory
+     */
 	public void setOverrideApacheConfPath(String overrideApacheConfPath) {
 		this.overrideApacheConfPath = overrideApacheConfPath;
 	}
 
+     /**
+     * This path sould come from the configuration instance later on.
+     * @return the path to the hosts-available directory
+     */
 	public String getOverrideApacheEnabledPath() {
 		return overrideApacheEnabledPath;
 	}
 
+    /**
+     * This method is used for unit tests at the moment. Later on this value
+     * will be given by the configuration beans.
+     * @param overrideApacheEnabledPath full path to the hosts-available directory
+     */
 	public void setOverrideApacheEnabledPath(String overrideApacheEnabledPath) {
 		this.overrideApacheEnabledPath = overrideApacheEnabledPath;
 	}

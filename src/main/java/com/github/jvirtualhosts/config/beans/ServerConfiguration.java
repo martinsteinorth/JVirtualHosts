@@ -83,6 +83,11 @@ public class ServerConfiguration {
         return hostname;
     }
 
+    /**
+     * Hostname of a remote server.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     public void setHostname(String hostname) {
         this.hostname = hostname;
     }
@@ -91,6 +96,11 @@ public class ServerConfiguration {
         return port;
     }
 
+    /**
+     * SSH port of a remote server.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     public void setPort(Integer port) {
         this.port = port;
     }
@@ -99,6 +109,10 @@ public class ServerConfiguration {
         return type;
     }
 
+    /**
+     * The type of connection that the "server"
+     * uses.
+     */
     public void setType(ConnectionType type) {
         this.type = type;
     }
@@ -107,6 +121,11 @@ public class ServerConfiguration {
         return username;
     }
 
+    /**
+     * Username for SSH connection
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     public void setUsername(String username) {
         this.username = username;
     }
@@ -115,6 +134,11 @@ public class ServerConfiguration {
         return keyFilePath;
     }
 
+    /**
+     * Keyfile for SSH key-based auth.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     public void setKeyFilePath(String keyFilePath) {
         this.keyFilePath = keyFilePath;
         if (password != null) {
@@ -126,6 +150,12 @@ public class ServerConfiguration {
         return password;
     }
 
+    /**
+     * Password for SSH auth. Please note, that this is
+     * a non-encrypted storage! If you set a keyFilePath
+     * the password will be erased. The keyfile is always the
+     * preferred kind of authentication!
+     */
     public void setPassword(String password) {
         this.password = password;
     }
@@ -134,6 +164,10 @@ public class ServerConfiguration {
         return pathToHostsFile;
     }
 
+    /**
+     * Defaults to /etc/hosts
+     * @param pathToHostsFile
+     */
     public void setPathToHostsFile(String pathToHostsFile) {
         this.pathToHostsFile = pathToHostsFile;
     }

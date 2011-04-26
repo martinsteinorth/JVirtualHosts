@@ -15,12 +15,10 @@
  */
 package com.github.jvirtualhosts.tool;
 
+
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 20.04.11
- * Time: 12:07
- * To change this template use File | Settings | File Templates.
+ * Connection types which are available to the application.
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public enum ConnectionType {
     LOCAL,
