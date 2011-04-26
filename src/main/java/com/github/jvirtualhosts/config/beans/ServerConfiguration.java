@@ -1,3 +1,18 @@
+/**
+ * Copyright 2011 Martin Steinorth <martin.steinorth@gmail.com>, Mario Mueller <mario.mueller.work@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.jvirtualhosts.config.beans;
 
 import com.github.jvirtualhosts.tool.ConnectionType;
@@ -5,36 +20,64 @@ import com.github.jvirtualhosts.tool.ConnectionType;
 import javax.persistence.Id;
 
 /**
- * Created by IntelliJ IDEA.
- * User: mario
- * Date: 21.04.11
- * Time: 21:56
- * To change this template use File | Settings | File Templates.
+ * Represents a single server configuration entry
+ *
+ * @author Mario Mueller<mario.mueller.work@gmail.com>
  */
 public class ServerConfiguration {
 
     @Id
     private Object id;
 
+    /**
+     * Hostname of a remote server.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     private String hostname;
 
+    /**
+     * SSH port of a remote server.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     private Integer port;
 
+    /**
+     * The type of connection that the "server"
+     * uses.
+     */
     private ConnectionType type;
 
+    /**
+     * Username for SSH connection
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     private String username;
 
+    /**
+     * Keyfile for SSH key-based auth.
+     * Leave this on a null value, if you do not
+     * need a remote connection.
+     */
     private String keyFilePath;
 
+    /**
+     * Password for SSH auth. Please note, that this is
+     * a non-encrypted storage! If you set a keyFilePath
+     * the password will be erased. The keyfile is always the
+     * preferred kind of authentication!
+     */
     private String password;
 
-    private String pathToHostsFile;
+    private String pathToHostsFile = "/etc/hosts";
 
-    private String pathHostsAvailable;
+    private String pathHostsAvailable = "/etc/apache2/sites-available";
 
-    private String pathHostsEnabled;
+    private String pathHostsEnabled = "/etc/apache2/sites-enabled";
 
-    private boolean useApacheTools;
+    private boolean useApacheTools = true;
 
     public String getHostname() {
         return hostname;
@@ -74,6 +117,9 @@ public class ServerConfiguration {
 
     public void setKeyFilePath(String keyFilePath) {
         this.keyFilePath = keyFilePath;
+        if (password != null) {
+            password = null;
+        }
     }
 
     public String getPassword() {
