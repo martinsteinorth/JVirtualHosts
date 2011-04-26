@@ -1,5 +1,8 @@
 com.github.jvirtualhosts
+com.github.jvirtualhosts.config
+com.github.jvirtualhosts.config.beans
 com.github.jvirtualhosts.gui
 com.github.jvirtualhosts.management.apache
 com.github.jvirtualhosts.management.dns
+com.github.jvirtualhosts.storage.orient
 com.github.jvirtualhosts.tool
