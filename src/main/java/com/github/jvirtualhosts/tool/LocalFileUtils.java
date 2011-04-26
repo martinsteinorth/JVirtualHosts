@@ -36,7 +36,6 @@ public class LocalFileUtils implements FileOperator {
 	 * @param filePath full qualified path to the file
 	 * @return The content of the file as string.
 	 * @throws java.io.IOException
-	 * @author Mario Mueller<mario.mueller.work@gmail.com>
 	 */
 	public final String readFileAsString(String filePath)
 			throws java.io.IOException {

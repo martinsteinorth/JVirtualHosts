@@ -138,7 +138,7 @@ public class ApacheUtils {
     /**
      * Reloads the apache config.
      *
-     * @TODO This method must check for upstart or sysv
+     * TODO This method must check for upstart or sysv
      */
     public boolean reloadApacheConfig() {
         String command = "sudo /etc/init.d/apache2 reload";
