@@ -24,7 +24,16 @@ package com.github.jvirtualhosts.tool;
  */
 public interface ShellCommandExecutor {
 
+    /**
+     * Executes a shell command.
+     * @param command
+     * @return true if nothing was send to stdErr
+     */
     boolean executeShellCommand(final String command);
 
+    /**
+     * Returns the last output, whether it came from stdErr or stdOut
+     * @return a string containing the output of the last command executed by executeShellCommand()
+     */
     String getLastOutput();
 }

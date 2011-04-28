@@ -31,14 +31,30 @@ import java.util.regex.Pattern;
  */
 public class VirtualHostParser {
 
+    /**
+     * The type of connection to be used
+     */
     private ConnectionType type;
 
+    /**
+     * A factory to type the parser for a connection
+     * @param type local or remote connection
+     * @return the virtual host parser
+     */
     public static VirtualHostParser factory(ConnectionType type) {
         VirtualHostParser virtualHostParser = new VirtualHostParser();
         virtualHostParser.type = type;
         return virtualHostParser;
     }
 
+    /**
+     * The main parser method
+     *
+     * @deprecated This parser method is still made for local parsing and is subject to be refactored
+     * @param fullPath the full path to the file that should be read
+     * @return a parsed and filled instance of a virtual host entry
+     * @throws IOException
+     */
 	public VirtualHostEntry parse(String fullPath) throws IOException {
         FileOperator operator = FileFactory.factory(type);
 		String vhostConfig = operator.readFileAsString(fullPath);
