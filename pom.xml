@@ -24,6 +24,11 @@
         <system>GitHub</system>
     </issueManagement>
 
+    <ciManagement>
+        <system>Jenkins</system>
+        <url>https://jvirtualhosts.ci.cloudbees.com/</url>
+    </ciManagement>
+
     <scm>
         <url>https://github.com/JVirtualHosts/JVirtualHosts</url>
         <connection>scm:git:https://xenji@github.com/JVirtualHosts/JVirtualHosts.git</connection>
